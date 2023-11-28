@@ -55,8 +55,30 @@ std::string Variant::to_string() const{
          }
     };
 
-std::string Variant::to_json_string() {
-    // Tu implementación aquí
+std::string Variant::to_json_string() const{
+    json11::Json json;
+    switch (type) {
+        case VariantType::Symbol:
+            json = val;
+            break;
+        case VariantType::Number:
+            json = std::stod(val);
+            break;
+        case VariantType::List: {
+            json11::Json::array json_array;
+            for (const auto& element : list) {
+                json_array.push_back(json11::Json(element.to_json_string()));
+            }
+            json = json_array;
+            break;
+        }
+        case VariantType::Proc:
+            json = "Procedure";
+            break;
+        default:
+            json = nullptr;
+    }
+    return json.dump();
 }
 
 Variant Variant::from_json_string(std::string sjson) {
