@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 #include "json11.hpp"
-#include "jsonlib.hpp"
+
 
 // Enumeración para los tipos de datos admitidos
 enum VariantType{Symbol, Number, List, Proc, Lambda, Cadena};
@@ -30,7 +30,7 @@ public:
     std::string to_string() const;
     std::string to_json_string() const;
     static Variant from_json_string(const std::string& json);
-    static Variant parse_json(jsonlib::Json job);
+    static Variant parse_json(json11::Json& job);
 };
 std::string Variant::to_string() const{
     switch (type) {
@@ -94,7 +94,26 @@ Variant Variant::from_json_string(const std::string sjson) {
 Variant Variant::parse_json(jsonlib::Json job) {
     return Variant();
 }
+int main() {
+    Variant symbol_variant(VariantType::Symbol);
+    symbol_variant.val = "hola";
 
+    Variant number_variant(VariantType::Number);
+    number_variant.val = "10";
+
+    Variant list_variant(VariantType::List);
+    list_variant.list = {symbol_variant, number_variant};
+
+    std::cout << "to_string: " << list_variant.to_string() << std::endl;
+    std::cout << "to_json_string: " << list_variant.to_json_string() << std::endl;
+
+    std::string json_str = list_variant.to_json_string();
+    Variant parsed_variant = Variant::from_json_string(json_str);
+
+    std::cout << "Parsed Variant to_string: " << parsed_variant.to_string() << std::endl;
+
+    return 0;
+}
 
 
 
