@@ -32,6 +32,21 @@ public:
     static Variant from_json_string(const std::string& json);
     static Variant parse_json(jsonlib::Json job);
 };
+std::string Variant::to_string() {
+    // Tu implementación aquí
+}
+
+std::string Variant::to_json_string() {
+    // Tu implementación aquí
+}
+
+Variant Variant::from_json_string(std::string sjson) {
+    // Tu implementación aquí
+}
+
+Variant Variant::parse_json(jsonlib::Json job) {
+    // Tu implementación aquí
+}
 
 
 
