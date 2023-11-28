@@ -32,9 +32,28 @@ public:
     static Variant from_json_string(const std::string& json);
     static Variant parse_json(jsonlib::Json job);
 };
-std::string Variant::to_string() {
-    // Tu implementación aquí
-}
+std::string Variant::to_string() const{
+    switch (type) {
+        case VariantType::Symbol:
+        case VariantType::Number:
+            return val;
+        case VariantType::List: {
+            std::string result = "(";
+            for (const auto& element : list) {
+                result += element.to_string() + " ";
+            }
+            if (!list.empty()) {
+                result.pop_back();
+            }
+            result += ")";
+            return result;
+        }
+        case VariantType::Proc:
+            return "Procedure";
+        default:
+            return "Unknown";
+         }
+    };
 
 std::string Variant::to_json_string() {
     // Tu implementación aquí
